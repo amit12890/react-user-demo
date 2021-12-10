@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
 import classes from "./AddUser.module.css";
-import Card from "../UI/Card";
-import Button from "../UI/Button";
-import ErrorModel from "../UI/ErrorModel";
+import Card from "@mui/material/Card";
+import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import TextField from "@mui/material/TextField";
+import { FormControl, Box } from "@mui/material";
 
 const AddUser = (props) => {
   const [enteredUserName, setEnteredUserName] = useState("");
@@ -48,31 +51,53 @@ const AddUser = (props) => {
   return (
     <div>
       {error && (
-        <ErrorModel
-          onConfirm={errorHandler}
-          title={error.title}
-          message={error.message}
-        />
+        <Snackbar open={true} autoHideDuration={6000} onClose={errorHandler}>
+          <Alert onClose={errorHandler} severity="error" sx={{ width: "100%" }}>
+            {error.message}
+          </Alert>
+        </Snackbar>
       )}
-      <Card className={classes.input}>
-        <form onSubmit={addUserHandler}>
-          <label htmlFor="userName">Username</label>
-          <input
-            id="userName"
-            type="text"
-            value={enteredUserName}
-            onChange={onUserNameChangeHandler}
-          />
-          <label htmlFor="age">Age (Years)</label>
-          <input
-            id="age"
-            type="number"
-            value={enteredAge}
-            onChange={onAgeChangeHandler}
-          />
-          <Button type="submit">Add User</Button>
-        </form>
-      </Card>
+      <form onSubmit={addUserHandler}>
+        <Card className={classes.card}>
+          <div>
+            <TextField
+              margin="normal"
+              fullWidth
+              required
+              id="userName"
+              type="text"
+              label="Username"
+              variant="outlined"
+              value={enteredUserName}
+              margin="dense"
+              onChange={onUserNameChangeHandler}
+            />
+          </div>
+          <div>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="age"
+              type="number"
+              label="Age"
+              variant="outlined"
+              value={enteredAge}
+              margin="dense"
+              onChange={onAgeChangeHandler}
+            />
+          </div>
+
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Add User
+          </Button>
+        </Card>
+      </form>
     </div>
   );
 };

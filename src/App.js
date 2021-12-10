@@ -14,7 +14,7 @@ function App() {
     });
   };
   return (
-    <div>
+    <div className="main">
       <AddUser onAddUser={onAddUserHandler} />
       <UserList users={userList} />
     </div>
